@@ -15,12 +15,6 @@
 //     .Where(g => g.Count() > 1);
 
 
-{
-
-}
-using System.IO;
-using System.Runtime.InteropServices;
-
 // List<int> list = [1,2,3,4,5,6,7,8,9];
 // var query =
 //     from item in list
@@ -35,6 +29,9 @@ using System.Runtime.InteropServices;
 //     .GroupBy(i => i % 10)
 //     .Where(g => g.Count() > 1);
 
+var teste = new CovidAnalisys();
+
+Console.WriteLine(teste.GetAnalisys());
 public class CovidAnalisys
 {
     public static IEnumerable<string> GetData()
@@ -71,6 +68,3 @@ public class CovidAnalisys
             return "Não foi vacinado e morreu";
     }
 }
-var teste = new CovidAnalisys;
-
-Console.WriteLine(teste.GetAnalisys());
