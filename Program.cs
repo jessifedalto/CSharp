@@ -31,7 +31,11 @@
 
 var teste = new CovidAnalisys();
 
-Console.WriteLine(teste.GetAnalisys());
+var dados = teste.GetAnalisys();
+
+Console.WriteLine((float)dados.deathAndVaccinated / dados.vaccinated * 100);
+Console.WriteLine((float)dados.deathAndNotVaccinated / dados.notVaccinated * 100);
+
 public class CovidAnalisys
 {
     public static IEnumerable<string> GetData()
@@ -44,27 +48,35 @@ public class CovidAnalisys
             yield return line;
     }
 
-    public string GetAnalisys()
+    public Data GetAnalisys()
     {
         int countDeathAndVaccinated = 0;
         int countDeathAndNotVaccinated = 0;
 
+        int vaccinated = 0;
+        int notVaccinated = 0;
+
         foreach (var line in GetData())
         {
             var column = line.Split(';');
-            if (column[77] is "5" && column[79] is "2")
-            {
-                if (column[35] is "2")
-                    countDeathAndNotVaccinated++;
-                
-                else if (column[35] is "1")
-                    countDeathAndVaccinated++;
-            }
-        }
 
-        if(countDeathAndVaccinated > countDeathAndNotVaccinated)
-            return "Foi vacinado e morreu";
-        else
-            return "Não foi vacinado e morreu";
+            if (column[106] is "5") //pega todos os que morreram por covid
+            {
+                if (column[154] is "2"){
+                    vaccinated++; //pega todos os que foram vacinados
+
+                    if (column[109] is "2")
+                    {
+                        countDeathAndVaccinated++;
+                    }
+                } else {
+                    notVaccinated++;
+                    if (column[109] is "2")
+                        countDeathAndNotVaccinated++;
+                }
+            } 
+        }
+        return new Data(vaccinated, notVaccinated, countDeathAndVaccinated, countDeathAndNotVaccinated);
     }
 }
+public record Data(int vaccinated, int notVaccinated, int deathAndVaccinated, int deathAndNotVaccinated);
