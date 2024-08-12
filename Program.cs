@@ -1,9 +1,13 @@
 ﻿
 List<BigInt> sort(BigInt[] array)
 {
-    
+
 }
 
+List<BigInt> getRandom(int size)
+{
+    
+}
 
 public class BigInt
 {
